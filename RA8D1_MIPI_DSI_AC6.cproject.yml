@@ -1,0 +1,93 @@
+project:
+  packs:
+    - pack: Renesas::RA_DFP
+    - pack: ARM::Arm-2D
+    - pack: ARM::CMSIS-Compiler
+    - pack: ARM::CMSIS
+    - pack: ARM::CMSIS-DSP
+    - pack: GorgonMeducer::perf_counter
+    - pack: LVGL::lvgl
+#    - pack: Renesas::RA8_DFP
+    - pack: ARM::CMSIS-NN
+  generators:
+    base-dir: $ProjectDir()$
+    options:
+    - generator: Renesas RA Smart Configurator
+      path: ./
+  setups:
+    - setup: Options for Target
+      processor:
+        fpu: dp
+        mve: fp
+        trustzone: "off"
+        branch-protection: "off"
+      add-path:
+        - src/SEGGER_RTT
+        - ra/fsp/src/bsp/cmsis/Device/RENESAS/Include
+        - src
+        - .
+      debug: "on"
+      define:
+        - ITERATIONS: "30000"
+        - CMSIS_device_header: \"bsp_api.h\"
+      misc:
+        - C:
+            - -std=gnu11
+          C-CPP:
+            - -Wno-implicit-int-conversion -Wno-format-security -Wno-license-management
+            - -flto
+            - -fno-rtti
+            - -funsigned-char
+            - -ffunction-sections
+          CPP:
+            - -xc++
+            - -std=c++11
+          ASM:
+            - -masm=auto
+          Link:
+            - --map
+            - --load_addr_map_info
+            - --xref
+            - --callgraph
+            - --symbols
+            - --info sizes
+            - --info totals
+            - --info unused
+            - --info veneers
+            - --lto
+            - --entry=Reset_Handler
+            - --diag_suppress=6319,6314,6329
+            - --summary_stderr
+            - --info summarysizes
+  linker:
+    - script: script/fsp.scat
+#  groups:
+#    - group: _Renesas RA Smart Configurator_Common Sources
+#      files:
+#        - file: src/hal_entry.c
+#        - file: src/common_utils.h
+#        - file: src/gt911.c
+#        - file: src/gt911.h
+#        - file: src/mipi_dsi_ep.c
+#        - file: src/mipi_dsi_ep.h
+#        - file: src/SEGGER_RTT/SEGGER_RTT.c
+#        - file: src/SEGGER_RTT/SEGGER_RTT.h
+#        - file: src/SEGGER_RTT/SEGGER_RTT_Conf.h
+#        - file: src/SEGGER_RTT/SEGGER_RTT_printf.c
+  components:
+    - component: ARM::Acceleration:Arm-2D:Alpha-Blending
+    - component: ARM::Acceleration:Arm-2D:Core
+    - component: ARM::Acceleration:Arm-2D:Transform
+    - component: ARM::CMSIS-Compiler:CORE
+    - component: ARM::CMSIS-Compiler:STDOUT:Custom
+    - component: ARM::CMSIS:CORE
+    - component: ARM::CMSIS:DSP&Source
+    - component: ARM::CMSIS:OS Tick:SysTick
+    - component: GorgonMeducer::Utilities:perf_counter:Benchmark&Coremark
+    - component: GorgonMeducer::Utilities:perf_counter:Core&Source
+    - component: LVGL::LVGL&LVGL9:Demos:Assets
+    - component: LVGL::LVGL&LVGL9:Demos:Benchmark
+    - component: LVGL::LVGL&LVGL9:Demos:Widgets
+    - component: LVGL::LVGL&LVGL9:Essential
+    - component: LVGL::LVGL&LVGL9:Porting:Display&Generic
+    - component: Renesas::Flex Software:RA Configuration
