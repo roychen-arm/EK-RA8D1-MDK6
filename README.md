@@ -97,6 +97,69 @@ Expand `Utilities::perf_counter` , select both `Benchmark::Coremark` and `Core::
 3. Compile and debug.  You can find the coremark report in `Debug (printf) View` after entering the debug mode. 
 
 
+### How to build with CMSIS Toolbox
+[CMSIS-Toolbox](https://github.com/Open-CMSIS-Pack/cmsis-toolbox/tree/main) is the open source tools which provide a set of command-line tools to work with software packs in Open-CMSIS-Pack format.
+
+1. Install [vcpkg](https://learn.arm.com/learning-paths/microcontrollers/vcpkg-tool-installation/installation/) which is used to deploy tools and environment easily.
+```shell
+. <(curl https://aka.ms/vcpkg-init.sh -L)
+```
+
+If you already installed vcpkg before, just run the command to initialize vcpkg instead.
+```shell
+. ~/.vcpkg/vcpkg-init
+```
+
+2. Activate the enviroment. It will automatically download the requred tools defined in [vcpkg-configuration.json](./vcpkg-configuration.json) and setup the enviroment variable.
+```shell
+vcpkg-shell activate
+```
+
+3. Use the `cbuild` command to build the project.
+```shell
+cbuild ./RA8D1_MIPI_DSI_AC6.csolution.yml --context-set --update-rte --packs
+```
+>**Note:** During the build process required packs may be downloaded.
+
+You can refer [`CMSIS Project Manager - Users Manual`](https://github.com/Open-CMSIS-Pack/cmsis-toolbox/blob/main/docs/build-overview.md) for more detail usage of cpackget/csolution/cbuild.
+
+### How to build with VS Code
+[Keil MDK 6](https://www.keil.arm.com/keil-mdk/) contains [Keil Studio (VS Code Extensions)](https://marketplace.visualstudio.com/items?itemName=Arm.keil-studio-pack) which compatible with CMSIS-Toolbox.
+Users can use VS Code IDE for CMSIS based project development.
+
+1. Install VS Code Extensions in VS Code
+Search `Arm Keil Studio` in VS Code Extensions tab and install it.
+
+![KeilStudioExt](./document/picture/KeilStudioExt.png) 
+
+Once you installed Keil Studio extension, you will see `CMSIS` and `Device Manager` on side tab
+
+![CMSISManager](./document/picture/CMSISManager.png) 
+
+
+2. Open the project with VS Code
+
+On VS Code menu, `File` -> `Open`. then assign the path you clone the project.
+
+![openproject](./document/picture/OpenProject.png) 
+
+3. Actviate develpoment environment
+
+After open the project, you will see the `Arm Environment Activation` warning. Please click `Allow for Current Workspace` or `Alwas Allow`
+
+![ArmEnvironmentActivation](./document/picture/warning.png) 
+
+4. Refresh the Project for constructed-files
+
+In case the `constructed-files`(RTE_Components.h, Pre_Include_Global.h, etc.) are not generated automatically, Move to `CMSIS` tab and click `Refresh (reload packs, update RTE)` under `...`.
+
+![UpdateRTE](./document/picture/UpdateRTE.png)
+
+5. Build the project with VS Code
+
+Click the build icon to build the project.
+
+![VSCodeBuild](./document/picture/VSCodeBuild.png)
 
 ## FAQ
 
