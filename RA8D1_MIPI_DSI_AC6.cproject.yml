@@ -21,11 +21,11 @@ project:
         mve: fp
         trustzone: "off"
         branch-protection: "off"
-      add-path:
-        - src/SEGGER_RTT
-        - ra/fsp/src/bsp/cmsis/Device/RENESAS/Include
-        - src
-        - .
+#      add-path:
+#        - src/SEGGER_RTT
+#        - ra/fsp/src/bsp/cmsis/Device/RENESAS/Include
+#        - src
+#        - .
       debug: "on"
       define:
         - ITERATIONS: "30000"
