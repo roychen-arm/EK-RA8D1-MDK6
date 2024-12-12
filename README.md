@@ -21,6 +21,7 @@ To buy time for the Renesas Team to solve the issue and to provide a template fo
 - Integrates [`perf_counter`](https://github.com/GorgonMeducer/perf_counter) and ready to run [`Coremark`](https://github.com/eembc/coremark)
 - Ready to evaluate [`Arm-2D`](https://github.com/ARM-software/Arm-2D) and provides demos.
 - Validated with [FSP 4.4.0](https://github.com/renesas/fsp/releases/tag/v4.4.0)
+- [Added] Complaint with [CMSIS-Toolbox](https://github.com/Open-CMSIS-Pack/cmsis-toolbox) & MDK6
 
 
 
@@ -33,7 +34,7 @@ To buy time for the Renesas Team to solve the issue and to provide a template fo
 2. Clone the project with the following command line:
 
 ```shell
-git clone https://github.com/GorgonMeducer/EK-RA8D1
+git clone https://github.com/roychen-arm/EK-RA8D1-MDK6
 ```
 
 3. Install required cmsis-packs
