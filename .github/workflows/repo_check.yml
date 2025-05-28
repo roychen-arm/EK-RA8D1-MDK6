@@ -1,0 +1,46 @@
+on: 
+  push:
+    branches: [ main ]
+  pull_request: 
+    paths:
+      - src/*
+      - *.c
+      - *.h
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: repo check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup vcpkg environment
+        uses: ARM-software/cmsis-actions/vcpkg@v1
+        with:
+            config: "./vcpkg-configuration.json"
+            vcpkg-downloads: "${{ github.workspace }}/.vcpkg/downloads"
+            cache: "-"
+
+      - name: Activate Arm license
+        uses: ARM-software/cmsis-actions/armlm@v1
+        with:
+          server: https://mdk-preview.keil.arm.com
+          product: KEMDK-COM0
+
+      - name: repo build check
+        run: |
+          cbuild ./RA8D1_MIPI_DSI_AC6.csolution.yml --context-set --update-rte --packs
+
+      - name: Archive results
+        uses: actions/upload-artifact@v4
+        with:
+          name: results
+          path: |
+            out/RA8D1_MIPI_DSI_AC6/Target/RA8D1_MIPI_DSI_AC6.axf
+            out/RA8D1_MIPI_DSI_AC6/Target/RA8D1_MIPI_DSI_AC6.axf.map
+            out/RA8D1_MIPI_DSI_AC6/Target/RA8D1_MIPI_DSI_AC6.htm
+          retention-days: 1
+          if-no-files-found: error
+        if: always()
