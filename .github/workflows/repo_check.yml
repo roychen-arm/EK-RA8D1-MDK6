@@ -3,7 +3,9 @@ on:
     branches: [ main ]
   pull_request: 
     paths:
-      - src/*
+      - 'src/**'
+      - '**.c'
+      - '**.h'
   workflow_dispatch:
 
 jobs:
